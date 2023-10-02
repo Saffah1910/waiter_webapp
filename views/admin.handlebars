@@ -1,42 +1,102 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Admin Dashboard - Coffee Shop Waiter Availability</title>
-    <!-- Add your CSS stylesheets or links to CDN here -->
-</head>
-
 <body>
     <header>
+        <img src="./css/icons8-coffee-100.png">
         <h1>Welcome to the Admin Dashboard</h1>
     </header>
+
+
 
 
 
     <div class="adminManage">
         <div>
             <h2>Manage Waiters</h2>
-            <!-- Add content for managing waiters here -->
-            <table>
-                <tr>1555</tr>
-            
-                <tr>1555</tr>
-            </table>
+            <div class="maanageWaiters">
+                <p>
+
+                Waiter Name : Mark <br>
+                Availability: <span class="availability-taken">&#10004;</span><br>
+                {{!-- <span class="availability-not-taken">&#10008;</span> --}}
+                 <button class="remove-button" onclick="return confirm('Are you aure you want to remove this waiter')">Remove</button>
+
+                </p>
+                 <p>
+
+                Waiter Name : Mark <br>
+                Availability: <span class="availability-taken">&#10004;</span><br>
+                {{!-- <span class="availability-not-taken">&#10008;</span> --}}
+                 <button class="remove-button" onclick="return confirm('Are you aure you want to remove this waiter')">Remove</button>
+                 
+
+                </p>
+
+                 <p>
+
+                Waiter Name : Mark <br>
+                Availability: <span class="availability-taken">&#10004;</span><br>
+                {{!-- <span class="availability-not-taken">&#10008;</span> --}}
+                 <button class="remove-button" onclick="return confirm('Are you aure you want to remove this waiter')">Remove</button>
+
+                </p>
+
+
+
+            </div>
+
         </div>
 
         <div>
-            <h2>View Waiter Availability</h2>
-            <!-- Display waiter availability information here -->
+            <h2>Day status</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday</td>
+                       
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                     
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        
+                    </tr>
+
+                    <tr>
+                        <td>Thursday</td>
+                       
+                    </tr>
+
+                    <tr>
+                        <td>Friday</td>
+                       
+                    </tr>
+
+                    <tr>
+                        <td>Saturday</td>
+                      
+                    </tr>
+
+                    <tr>
+                        <td>Sunday </td>
+                       
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
         </div>
 
-        <!-- Add more sections or content as needed -->
     </div>
 
-    <footer>
-        <!-- Add footer content or links here -->
-    </footer>
 
-    <!-- Add your JavaScript scripts or links to external scripts here -->
 </body>
 
 </html>

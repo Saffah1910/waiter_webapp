@@ -1,0 +1,106 @@
+<header>
+    <img src="/css/icons8-waiter-50.png">
+    <h1>Welcome to waiter dashboard</h1><br>
+</header>
+
+
+<form action="/waiters" method="POST">
+    <label for="username">Your Name:</label>
+    <input type="text" name="username" id="username" required>
+    <br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>Monday</td>
+                <td><input type="checkbox" name="availability" value="Monday" onclick="handleCheckbox(this)"></td>
+            </tr>
+            <tr>
+                <td>Tuesday</td>
+                <td><input type="checkbox" name="availability" value="Tuesday" onclick="handleCheckbox(this)"></td>
+            </tr>
+            <tr>
+                <td>Wednesday</td>
+                <td><input type="checkbox" name="availability" value="Wednesday" onclick="handleCheckbox(this)"></td>
+            </tr>
+            <tr>
+                <td>Thursday</td>
+                <td><input type="checkbox" name="availability" value="Thursday" onclick="handleCheckbox(this)"></td>
+            </tr>
+            <tr>
+                <td>Friday</td>
+                <td><input type="checkbox" name="availability" value="Friday" onclick="handleCheckbox(this)"></td>
+            </tr>
+            <tr>
+                <td>Saturday</td>
+                <td><input type="checkbox" name="availability" value="Saturday" onclick="handleCheckbox(this)"></td>
+            </tr>
+            <tr>
+                <td>Sunday</td>
+                <td><input type="checkbox" name="availability" value="Sunday" onclick="handleCheckbox(this)"></td>
+            </tr>
+        </tbody>
+
+    </table>
+        <script>
+            let selectedDays = [];
+
+            function handleCheckbox(checkbox) {
+                if (checkbox.checked) {
+                    // If adding a new selection doesn't exceed the limit
+                    if (selectedDays.length < 3) {
+                        selectedDays.push(checkbox.value);
+                    } else {
+                        checkbox.checked = false; // Uncheck the checkbox
+                        alert("You can only select three days.");
+                    }
+                } else {
+                    // If unchecking, remove from the selectedDays array
+                    selectedDays = selectedDays.filter(day => day !== checkbox.value);
+                }
+
+            }
+        </script>
+    <br>
+</form>
+
+<button type="submit">Submit</button>
+
+
+
+
+{{!-- <div class="popup">
+    <button id="close">&times;</button>
+    <h2>Welcome to Our Website</h2>
+
+    <p>Welcome to your availability page. Here, you can select the days you're available to work. Simply check the
+        boxes next to the days you're ready to serve, and we'll take care of the rest.</p>
+    <p>If you have any questions or need assistance, feel free to reach out to our team. Thank you for your
+        dedication and hard work!</p>
+    <p>Thank you for visiting our website!</p>
+</div> --}}
+
+
+
+<script>
+    window.addEventListener("load", function () {
+        setTimeout(
+            function open(event) {
+                document.querySelector(".popup").style.display = "block";
+            },
+            1000
+        )
+    });
+
+
+    document.querySelector("#close").addEventListener("click", function () {
+        document.querySelector(".popup").style.display = "none";
+    });
+</script>
