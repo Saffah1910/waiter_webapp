@@ -1,5 +1,6 @@
 import assert from 'assert';
 import frontendWaiters from '../frontEnd.js';
+import waiterQuery from '../services/query.js'
 import pgPromise from 'pg-promise';
 import 'dotenv/config';
 import { describe } from 'mocha';
@@ -25,3 +26,25 @@ describe('Waiter front end', function () {
     });
 
 });
+// describe('waiterQuery', function () {
+//     this.timeout(20000);
+
+//     beforeEach(async function () {
+//         await db.none("DELETE FROM waiter")
+//     })
+//     it('should insert a waiter name into the database', async () => {
+//         const db = pgp('your-database-connection-string');
+//         const query = waiterQuery(db);
+//         const waiterName = 'John Doe';
+
+//         // Ensure that the function resolves without errors
+//         await assert.equal(query.insertWaiterName(waiterName)).to.be.fulfilled;
+
+//         // Check if the waiter was actually added to the database
+//         const result = await db.oneOrNone('SELECT username FROM waiter WHERE username = $1', [waiterName]);
+//         assert.isDefined(result);
+//         assert.equal(result.username, waiterName);
+//     });
+
+
+// });

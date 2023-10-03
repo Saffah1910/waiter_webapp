@@ -7,7 +7,9 @@ import pgPromise from 'pg-promise';
 import 'dotenv/config';
 
 //import frontend . databas queries, routes
-import frontendWaiters from './frontEnd.js'
+import frontendWaiters from './frontEnd.js';
+import routes from './routes/routes.js';
+import waiterQuery from './services/query.js'
 
 
 
@@ -18,6 +20,8 @@ const db = pgp(connectionString);
 const app = express();
 //create instance for frontend . databas queries, routes
 const frontEndLogic = frontendWaiters(db);
+const query = waiterQuery(db)
+const routesFunction = routes(query,frontEndLogic);
 
 
 
@@ -34,14 +38,19 @@ app.use(session({
 }));
 app.use(flash());
 
-app.get('/', async function home(req, res) {
-    res.render('admin');
+app.get('/days',(req,res)=>{
+  res.send('this is all the avialable days')
+
 });
+
+// app.get('/login',routesFunction.login)
+
+app.get('/', routesFunction.adminPage);
 
 //Show waiters a screen where they can select the days they can work
 app.get('/waiters/:username', (req, res) => {
     const username = req.params.username;
-    res.render('waiter-form', { username });
+    res.render('waiter', { username });
   });
 
 
@@ -49,19 +58,26 @@ app.get('/waiters/:username', (req, res) => {
 app.post('/waiters/:username', (req, res) => {
     const username = req.params.username;
     const selectedDays = req.body.days || [];
-  
-    // Process the selected days (e.g., save to the database)
-  
-    // Render a response (e.g., a confirmation page)
-    res.render('confirmation', { username, selectedDays });
+
   })
 
-// 	Show your sister which days waiters are available
-app.get('/days');
+// app.get('/days', routes.showDays);
 
-app.get('/waiter', async function waiter(req,res){
-    res.render('waiter')
-})
+app.get('/waiter',routesFunction.waiter);
+
+// app.post('/submit',routesFunction.addWaiter);
+
+app.post('/waiters', (req, res) => {
+  const username = req.body.username;
+  
+  // Assuming selectedDays is available in the request body (you need to adjust this based on your actual form data)
+  const selectedDays = req.body.availability || [];
+
+  // Call the function to insert the waiter name
+  query.insertWaiterName(username, selectedDays);
+
+  res.redirect('/waiter'); // Redirect to some success page
+});
 
 
 
