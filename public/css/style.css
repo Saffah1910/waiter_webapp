@@ -82,6 +82,15 @@ th {
 td input[type="checkbox"] {
     margin-left: 5px;
 }
+/* styling for success message */
+.green{
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    color: #270;
+    background-color: #DFF2BF;
+
+}
 
 /* Styling for the overlay */
 .overlay {

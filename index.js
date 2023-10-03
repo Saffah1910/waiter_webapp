@@ -48,27 +48,25 @@ app.get('/days',(req,res)=>{
 app.get('/', routesFunction.adminPage);
 
 //Show waiters a screen where they can select the days they can work
-app.get('/waiters/:username', (req, res) => {
-    const username = req.params.username;
-    res.render('waiter', { username });
-  });
+// app.get('/waiters/:username', (req, res) => {
+//     const username = req.params.username;
+//     res.render('waiter', { username });
+//   });
 
 
 // Send the days the waiter can work to the server.
-app.post('/waiters/:username', (req, res) => {
-    const username = req.params.username;
-    const selectedDays = req.body.days || [];
+// app.post('/waiters/:username', (req, res) => {
+//     const username = req.params.username;
+//     const selectedDays = req.body.days || [];
   
 
-  })
+//   })
 
-// app.get('/days', routes.showDays);
 
 app.get('/waiter',routesFunction.waiter);
 
-// app.post('/submit',routesFunction.addWaiter);
 
-app.post('/waiters',routesFunction.addWaiter)
+app.post('/waiter',routesFunction.addWaiter)
 
 
 
