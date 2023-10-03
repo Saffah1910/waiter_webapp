@@ -58,6 +58,7 @@ app.get('/waiters/:username', (req, res) => {
 app.post('/waiters/:username', (req, res) => {
     const username = req.params.username;
     const selectedDays = req.body.days || [];
+  
 
   })
 
@@ -67,21 +68,11 @@ app.get('/waiter',routesFunction.waiter);
 
 // app.post('/submit',routesFunction.addWaiter);
 
-app.post('/waiters', (req, res) => {
-  const username = req.body.username;
-  
-  // Assuming selectedDays is available in the request body (you need to adjust this based on your actual form data)
-  const selectedDays = req.body.availability || [];
-
-  // Call the function to insert the waiter name
-  query.insertWaiterName(username, selectedDays);
-
-  res.redirect('/waiter'); // Redirect to some success page
-});
+app.post('/waiters',routesFunction.addWaiter)
 
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 app.listen(PORT, function () {
     console.log("App started at port", PORT);
