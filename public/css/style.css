@@ -73,9 +73,7 @@ header{
     background-color: #f0f0f0; /* Add a background color to the header */
 
 }
-.logoutBtn {
-    margin-left: auto; /* Move the logout button to the right by pushing it to the end of the flex container */
-}
+
 table {
     width: 100%;
     border-collapse: collapse;
