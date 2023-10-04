@@ -1,3 +1,5 @@
+ <form action="/login" method="post">
+
   <div class="login-container">
     <h2>Login</h2>
     <form id="loginForm">
@@ -7,10 +9,11 @@
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
 
-      <button type="button" onclick="submitForm()">Login</button>
+      <button type="submit" onclick="submitForm()">Login</button>
     </form>
     <p id="errorMessage" class="error-message"></p>
   </div>
+ </form>
 
 
 

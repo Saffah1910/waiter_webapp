@@ -14,6 +14,31 @@ export default function routes(dbLogic, frontEndLogic) {
             success
         })
     }
+    async function login (req,res){
+        res.render('login')
+    }
+    async function handleLogin(req, res) {
+
+        console.log("login works!!");
+        const { username, password } = req.body;
+    
+        // Implement authentication logic (check against a database, for example)
+        const isAuthenticated = /* Your authentication logic here */ true;
+    
+        if (isAuthenticated) {
+            // Set session to indicate the user is logged in
+            req.session.isAuthenticated = true;
+            req.session.username = username;
+    
+            // Redirect to a protected page (e.g., dashboard)
+            res.redirect('/waiter');
+        } else {
+            // Redirect to the login page with an error message
+            req.flash('error', 'Invalid username or password');
+            res.redirect('/login');
+        }
+    }
+    
 
     async function addWaiter(req, res) {
         const username = req.body.username;
@@ -52,7 +77,8 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
     return {
-        // login,
+        login,
+        handleLogin,
         adminPage,
         waiter,
         addWaiter

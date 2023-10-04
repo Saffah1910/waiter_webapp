@@ -38,12 +38,13 @@ app.use(session({
 }));
 app.use(flash());
 
-app.get('/days',(req,res)=>{
-  res.send('this is all the avialable days')
 
-});
+// login page checks if user is admin or waiter and displays page based on that 
+app.get('/login',routesFunction.login);
 
-// app.get('/login',routesFunction.login)
+app.post('/login', routesFunction.handleLogin)
+
+
 
 app.get('/', routesFunction.adminPage);
 
