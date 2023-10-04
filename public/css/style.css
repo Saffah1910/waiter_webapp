@@ -1,6 +1,6 @@
 @font-face {
     font-family: cafeHeading;
-    src: url(CoffeeHome-YzWmL.ttf);
+    src: url(ModernScript-yyWe.ttf);
   
   }
 
@@ -19,7 +19,9 @@ body {
     background-color: #b59c7d;
     text-align: center;
     justify-content: center;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;}
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+align-items: center
+};
 
 .availability-taken {
     color: green; /* Green checkmark for taken days */
@@ -60,8 +62,19 @@ header{
     /* font-size: 50px; */
     /* background-color: #4f200c; */
     font-family: cafeHeading;
+    /* display: flex; */
+    /* flex-direction: row; */
+
+    width: 100%;
     display: flex;
-    flex-direction: row;
+    justify-content: space-between; /* Distribute space between child elements */
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0; /* Add a background color to the header */
+
+}
+.logoutBtn {
+    margin-left: auto; /* Move the logout button to the right by pushing it to the end of the flex container */
 }
 table {
     width: 100%;
