@@ -1,70 +1,88 @@
-   <!-- views/waiterForm.handlebars -->
-     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+<!-- views/waiterForm.handlebars -->
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
 
-        h1 {
-            color: #333;
-            text-align: center;
-        }
+  h1 {
+    color: #333;
+    text-align: center;
+  }
 
-        p.green {
-            color: green;
-        }
+  p.green {
+    color: green;
+  }
 
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
 
-        input[type="checkbox"] {
-            margin-right: 8px;
-        }
+  input[type="checkbox"] {
+    margin-right: 8px;
+  }
 
-        button {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
 
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .green {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    color: #270;
+    background-color: #DFF2BF;
+
+  }
+</style>
 
 <h1>Welcome, {{username}}!</h1>
 {{#if success}}
-  <p class="success">{{ success }}</p>
+<p class="green">{{ success }}</p>
 {{/if}}
+
+<script>
+  setTimeout(function () {
+    document.querySelector(".green").style.display = "none";
+  }, 4000)
+</script>
+
+
 <form action="/waiters/{{username}}" method="post">
   <table>
     <tr>
@@ -72,14 +90,14 @@
       <th></th>
     </tr>
     {{#each weekdays}}
-      <tr>
-        <td>
-          <label>
-            <input type="checkbox" name="days" value="{{id}}" {{#if checked}}checked{{/if}}>
-            {{weekday}}
-          </label>
-        </td>
-      </tr>
+    <tr>
+      <td>
+        <label>
+          <input type="checkbox" name="days" value="{{id}}" {{#if checked}}checked{{/if}}>
+          {{weekday}}
+        </label>
+      </td>
+    </tr>
     {{/each}}
   </table>
   <br>

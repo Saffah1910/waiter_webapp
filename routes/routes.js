@@ -6,27 +6,19 @@ export default function routes(dbLogic, frontEndLogic) {
     async function adminPage(req, res) {
         res.render('admin'
         )
-    }
+    };
+
+    
 
 
-    async function fetchAndMarkWeekdays(req,username) {
-        const weekdays = await dbLogic.showDays();
-        const waiterId = await dbLogic.getWaiterId(username);
-        const selectedDays = await dbLogic.getSelectedDaysForWaiter(waiterId);
-    
-        weekdays.forEach(day => {
-            day.checked = selectedDays.includes(day.id);
-        });
-    
-        return { weekdays, success: req.flash('success')[0] };
-    }
+  
     
     async function waiter(req, res) {
         try {
             const { username } = req.params;
     
             // Fetch the weekdays data from the database
-            const weekdays = await dbLogic.showDays();
+            const weekdays = await dbLogic.showDays(); // You need to implement this function in dbLogic
     
             // Fetch the selected days for the current waiter
             const waiterId = await dbLogic.getWaiterId(username);
@@ -37,13 +29,12 @@ export default function routes(dbLogic, frontEndLogic) {
                 day.checked = selectedDays.includes(day.id);
             });
     
-            // Retrieve the success flash message
             let success = req.flash('success')[0];
     
             res.render('waiter', {
                 username,
                 weekdays,
-                success, // Assuming you're using flash messages for success
+                success,
             });
         } catch (error) {
             console.error('Error in waiter route:', error.message);
@@ -52,13 +43,12 @@ export default function routes(dbLogic, frontEndLogic) {
     }
     
     
-
+    
+    
     async function addWaiter(req, res) {
         try {
             const { username } = req.params;
             const { days } = req.body;
-    
-            const { weekdays, success } = await fetchAndMarkWeekdays(req, username);
     
             // Insert the waiter name if it doesn't exist
             await dbLogic.insertWaiterName(username);
@@ -92,6 +82,7 @@ export default function routes(dbLogic, frontEndLogic) {
                     await dbLogic.addShift(waiterId, weekdayId);
                 }
             } else {
+                // This part was commented out in your code, uncomment it
                 const weekdayId = await dbLogic.getWeekdayId(days);
     
                 // Check if weekdayId is valid
@@ -112,25 +103,23 @@ export default function routes(dbLogic, frontEndLogic) {
     
             res.render('waiter', {
                 username,
-                weekdays,
                 selectedDays: updatedSelectedDays,
-                success,
+                success: req.flash('success')[0],
             });
         } catch (error) {
             console.error('Error in addWaiter:', error.message);
             // Handle the error and send an appropriate response
             res.status(500).send('Internal Server Error');
         }
-
         console.log(req.flash());
     }
+    
     
     
 
 
 
     return {
-        fetchAndMarkWeekdays,
         adminPage,
         waiter,
         addWaiter

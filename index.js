@@ -51,7 +51,7 @@ app.post('/waiters/:username', routesFunction.addWaiter);
 
 
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3013;
 
 app.listen(PORT, function () {
     console.log("App started at port", PORT);
