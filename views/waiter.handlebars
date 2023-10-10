@@ -1,114 +1,89 @@
-<header>
-    <img src="/css/icons8-waiter-50.png">
-    <h1>Welcome to waiter dashboard</h1><br>
-</header> 
-<form action="/login" method="get">
+   <!-- views/waiterForm.handlebars -->
+     <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-    <button class="logoutBtn" type="submit">Logout</button>
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        p.green {
+            color: green;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+<h1>Welcome, {{username}}!</h1>
+{{#if success}}
+  <p class="success">{{ success }}</p>
+{{/if}}
+<form action="/waiters/{{username}}" method="post">
+  <table>
+    <tr>
+      <th>Day</th>
+      <th></th>
+    </tr>
+    {{#each weekdays}}
+      <tr>
+        <td>
+          <label>
+            <input type="checkbox" name="days" value="{{id}}" {{#if checked}}checked{{/if}}>
+            {{weekday}}
+          </label>
+        </td>
+      </tr>
+    {{/each}}
+  </table>
+  <br>
+  <button type="submit">Submit</button>
 </form>
 
-<p class="green">{{success}}</p>
-<script>
-    setTimeout(function () {
-        document.querySelector(".green").style.display = "none";
-    }, 4000)
-</script>
 
-<form action="/waiter" method="POST">
-
-
-    <label for="username">Your Name:</label>
-    <input type="text" name="username" id="username" required>
-    <br>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>Available</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            <tr>
-                <td>Monday</td>
-                <td><input type="checkbox" name="availability" value="Monday" onclick="handleCheckbox(this)"></td>
-            </tr>
-            <tr>
-                <td>Tuesday</td>
-                <td><input type="checkbox" name="availability" value="Tuesday" onclick="handleCheckbox(this)"></td>
-            </tr>
-            <tr>
-                <td>Wednesday</td>
-                <td><input type="checkbox" name="availability" value="Wednesday" onclick="handleCheckbox(this)"></td>
-            </tr>
-            <tr>
-                <td>Thursday</td>
-                <td><input type="checkbox" name="availability" value="Thursday" onclick="handleCheckbox(this)"></td>
-            </tr>
-            <tr>
-                <td>Friday</td>
-                <td><input type="checkbox" name="availability" value="Friday" onclick="handleCheckbox(this)"></td>
-            </tr>
-            <tr>
-                <td>Saturday</td>
-                <td><input type="checkbox" name="availability" value="Saturday" onclick="handleCheckbox(this)"></td>
-            </tr>
-            <tr>
-                <td>Sunday</td>
-                <td><input type="checkbox" name="availability" value="Sunday" onclick="handleCheckbox(this)"></td>
-            </tr>
-        </tbody>
-
-    </table>
-        <script>
-            let selectedDays = [];
-
-            function handleCheckbox(checkbox) {
-                if (checkbox.checked) {
-                    // If adding a new selection doesn't exceed the limit
-                    if (selectedDays.length < 3) {
-                        selectedDays.push(checkbox.value);
-                    } else {
-                        checkbox.checked = false; // Uncheck the checkbox
-                        alert("You can only select three days.");
-                    }
-                } else {
-                    // If unchecking, remove from the selectedDays array
-                    selectedDays = selectedDays.filter(day => day !== checkbox.value);
-                }
-
-            }
-        </script>
-    <br>
-<button type="submit">Submit</button>
-</form>
-
-
-<div class="popup">
-    <button id="close">&times;</button>
-    <h2>Welcome to Our Website</h2>
-
-    <p>Welcome to your availability page. Here, you can select the days you're available to work. Simply check the
-        boxes next to the days you're ready to serve, and we'll take care of the rest.</p>
-    <p>If you have any questions or need assistance, feel free to reach out to our team. Thank you for your
-        dedication and hard work!</p>
-</div>
-
-
-
-<script>
-    window.addEventListener("load", function () {
-        setTimeout(
-            function open(event) {
-                document.querySelector(".popup").style.display = "block";
-            },
-            1000
-        )
-    });
-
-
-    document.querySelector("#close").addEventListener("click", function () {
-        document.querySelector(".popup").style.display = "none";
-    });
-</script>

@@ -21,7 +21,7 @@ const app = express();
 //create instance for frontend . databas queries, routes
 const frontEndLogic = frontendWaiters(db);
 const query = waiterQuery(db)
-const routesFunction = routes(query,frontEndLogic);
+const routesFunction = routes(query, frontEndLogic);
 
 
 
@@ -39,39 +39,19 @@ app.use(session({
 app.use(flash());
 
 
-// login page checks if user is admin or waiter and displays page based on that 
-app.get('/login',routesFunction.login);
-
-app.post('/login', routesFunction.handleLogin)
+//this route will show status of the days
+app.get('/days', routesFunction.adminPage);
 
 
 
-app.get('/', routesFunction.adminPage);
-
-//Show waiters a screen where they can select the days they can work
-// app.get('/waiters/:username', (req, res) => {
-//     const username = req.params.username;
-//     res.render('waiter', { username });
-//   });
+app.get('/waiters/:username',routesFunction.waiter);
 
 
-// Send the days the waiter can work to the server.
-// app.post('/waiters/:username', (req, res) => {
-//     const username = req.params.username;
-//     const selectedDays = req.body.days || [];
-  
-
-//   })
-
-
-app.get('/waiter',routesFunction.waiter);
-
-
-app.post('/waiter',routesFunction.addWaiter)
+app.post('/waiters/:username', routesFunction.addWaiter);
 
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 app.listen(PORT, function () {
     console.log("App started at port", PORT);
