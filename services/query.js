@@ -14,8 +14,6 @@ export default function waiterQuery(db) {
         }
     }
 
-  
-
     // Function to get waiter availability
     async function getWaiterAvailability(username) {
         try {getWaiterAvailability

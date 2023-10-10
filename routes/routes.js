@@ -4,15 +4,12 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
     async function adminPage(req, res) {
-        res.render('admin'
+        res.render('admin',
+        
         )
     };
 
-    
-
-
   
-    
     async function waiter(req, res) {
         try {
             const { username } = req.params;
@@ -82,7 +79,7 @@ export default function routes(dbLogic, frontEndLogic) {
                     await dbLogic.addShift(waiterId, weekdayId);
                 }
             } else {
-                // This part was commented out in your code, uncomment it
+                // Uncomment this part
                 const weekdayId = await dbLogic.getWeekdayId(days);
     
                 // Check if weekdayId is valid
@@ -98,22 +95,14 @@ export default function routes(dbLogic, frontEndLogic) {
             // Set success flash message
             req.flash('success', 'Waiter and shifts added successfully');
     
-            // Fetch the updated selected days for rendering
-            const updatedSelectedDays = await dbLogic.getSelectedDaysForWaiter(waiterId);
-    
-            res.render('waiter', {
-                username,
-                selectedDays: updatedSelectedDays,
-                success: req.flash('success')[0],
-            });
+            // Redirect to the waiter page after adding shifts
+            res.redirect(`/waiters/${username}`);
         } catch (error) {
             console.error('Error in addWaiter:', error.message);
             // Handle the error and send an appropriate response
             res.status(500).send('Internal Server Error');
         }
-        console.log(req.flash());
     }
-    
     
     
 
