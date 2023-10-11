@@ -79,7 +79,7 @@ async function adminPage(req, res) {
             // Get the waiter ID based on the waiter's name
             const waiterId = await dbLogic.getWaiterId(username);
             if(days.length < 3 || days.length > 5){
-                req.flash('error',"Plaese choose between 3 to 5 days.");
+                req.flash('error',"Please choose between 3 to 5 days.");
                 return res.redirect(`/waiters/${username}`);
             }
     
