@@ -4,6 +4,9 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
    // Inside your routes file
+   async function home (req,res){
+    res.redirect('/days')
+   }
 
 async function adminPage(req, res) {
 
@@ -139,6 +142,7 @@ async function adminPage(req, res) {
 
 
     return {
+        home,
         adminPage,
         waiter,
         addWaiter

@@ -38,6 +38,7 @@ app.use(session({
 }));
 app.use(flash());
 
+app.get('/', routesFunction.home);
 
 //this route will show status of the days
 app.get('/days', routesFunction.adminPage);

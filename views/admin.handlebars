@@ -9,8 +9,6 @@
 
 <form action="/days" method="get">
 
-
-
         <div>
             <h2>Day status</h2>
             <table>
@@ -24,7 +22,9 @@
                    
                         <td>Monday</td>
                         {{!-- name of all the users --}}
+                        {{#if waiterUsernames}}
                         {{waiterUsernames}}
+                        {{/if}}
 
 
                     </tr>
@@ -63,6 +63,7 @@
 
 
         </div>
+        <button>Clear week data</button>
 
     </div>
     </form>
