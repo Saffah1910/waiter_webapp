@@ -95,6 +95,17 @@ export default function waiterQuery(db) {
             throw error;
         }
     }
+    async function getWaitersForDay(weekdayId) {
+        try {
+            const queryResult = await db.any('SELECT username FROM shifts INNER JOIN waiter ON shifts.waiter_id = waiter.id WHERE shifts.weekday_id = $1', [weekdayId]);
+    
+            const waiterUsernames = queryResult.map(result => result.username);
+            return waiterUsernames;
+        } catch (error) {
+            console.error('Error in getWaitersForDay:', error.message);
+            throw error;
+        }
+    }
     
 
     return {
@@ -104,6 +115,7 @@ export default function waiterQuery(db) {
         getWaiterId,
         getWeekdayId,
         getWaiterAvailability,
-        getSelectedDaysForWaiter
+        getSelectedDaysForWaiter,
+        getWaitersForDay
     };
 }

@@ -69,6 +69,13 @@
     background-color: #DFF2BF;
 
   }
+  .red{
+     margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px 3px 3px 3px;
+    color: rgb(119, 0, 24);
+    background-color: #f2c8bf;
+  }
 </style>
 
 <h1>Welcome, {{username}}!</h1>
@@ -76,11 +83,22 @@
 <p class="green">{{ success }}</p>
 {{/if}}
 
+{{#if error}}
+<p class="red">{{ error }}</p>
+{{/if}}
+
 <script>
   setTimeout(function () {
     document.querySelector(".green").style.display = "none";
   }, 4000)
 </script>
+
+<script>
+  setTimeout(function () {
+    document.querySelector(".red").style.display = "none";
+  }, 4000)
+</script>
+
 
 
 <form action="/waiters/{{username}}" method="post">

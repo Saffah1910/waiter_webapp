@@ -3,11 +3,35 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
 
-    async function adminPage(req, res) {
-        res.render('admin',
-        
-        )
-    };
+   // Inside your routes file
+
+async function adminPage(req, res) {
+
+    try {
+        // Fetch the weekdays data from the database
+        const weekdays = await dbLogic.showDays();
+        console.log(weekdays);
+
+        // Extract the selected day from the request query parameters
+        const { selectedDayId } = req.query;
+
+        // Use your dbLogic function to get the waiter usernames for the specified weekday
+        const waiterUsernames = await dbLogic.getWaitersForDay(selectedDayId);
+        console.log(waiterUsernames);
+        //call the functio that gets the id of the day and then based on that day
+
+        res.render('admin', {
+            weekdays,
+            selectedDayId,
+            waiterUsernames,
+        });
+    } catch (error) {
+        console.error('Error in adminPage route:', error.message);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+
 
   
     async function waiter(req, res) {
@@ -27,11 +51,13 @@ export default function routes(dbLogic, frontEndLogic) {
             });
     
             let success = req.flash('success')[0];
+            let error = req.flash('error')[0];
     
             res.render('waiter', {
                 username,
                 weekdays,
                 success,
+                error
             });
         } catch (error) {
             console.error('Error in waiter route:', error.message);
@@ -52,6 +78,10 @@ export default function routes(dbLogic, frontEndLogic) {
     
             // Get the waiter ID based on the waiter's name
             const waiterId = await dbLogic.getWaiterId(username);
+            if(days.length < 3 || days.length > 5){
+                req.flash('error',"Plaese choose between 3 to 5 days.");
+                return res.redirect(`/waiters/${username}`);
+            }
     
             // Check if waiterId is valid
             if (!waiterId || isNaN(waiterId)) {

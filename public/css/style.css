@@ -1,11 +1,11 @@
 @font-face {
     font-family: cafeHeading;
     src: url(ModernScript-yyWe.ttf);
-  
-  }
+
+}
 
 body {
-    /* background-image: url(./depositphotos_5425468-stock-photo-coffee-background.jpg); */
+    /* background-image: url(./pxfuel.jpg); */
     /* background-color: #4f200c; */
     position: relative;
     /* background-repeat: no-repeat; */
@@ -20,45 +20,60 @@ body {
     text-align: center;
     justify-content: center;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-align-items: center
-};
+    align-items: center
+}
+
+;
 
 .availability-taken {
-    color: green; /* Green checkmark for taken days */
-    font-size: 24px; /* Adjust font size as needed */
+    color: green;
+    /* Green checkmark for taken days */
+    font-size: 24px;
+    /* Adjust font size as needed */
 }
 
 .availability-not-taken {
-    color: red; /* Red "X" for not taken days */
-    font-size: 24px; /* Adjust font size as needed */
+    color: red;
+    /* Red "X" for not taken days */
+    font-size: 24px;
+    /* Adjust font size as needed */
 }
 
 .maanageWaiters {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 10px;
-    margin: 20px; 
-   
-    padding: 20px; /* Add padding for spacing */
+    margin: 20px;
+
+    padding: 20px;
+    /* Add padding for spacing */
 }
 
 .maanageWaiters p {
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    background-color: #7f5539; /* Set your preferred background color */
-    padding: 10px; /* Add padding for spacing */
-    font-size: 16px; /* Set your preferred font size */
-    line-height: 1.5; /* Adjust line height for readability */
-    letter-spacing: 0.5px; /* Adjust letter spacing if needed */
+    background-color: #7f5539;
+    /* Set your preferred background color */
+    padding: 10px;
+    /* Add padding for spacing */
+    font-size: 16px;
+    /* Set your preferred font size */
+    line-height: 1.5;
+    /* Adjust line height for readability */
+    letter-spacing: 0.5px;
+    /* Adjust letter spacing if needed */
     margin: 0;
 }
+
 .maanageWaiters p:hover {
-    background-color: #b6ad90; /* Change background color on hover */
-    transition: background-color 0.3s ease; /* Add a smooth transition effect */
+    background-color: #b6ad90;
+    /* Change background color on hover */
+    transition: background-color 0.3s ease;
+    /* Add a smooth transition effect */
 }
 
 
-header{
+header {
     /* font-size: 50px; */
     /* background-color: #4f200c; */
     font-family: cafeHeading;
@@ -67,10 +82,12 @@ header{
 
     width: 100%;
     display: flex;
-    justify-content: space-between; /* Distribute space between child elements */
+    justify-content: space-between;
+    /* Distribute space between child elements */
     align-items: center;
     padding: 10px;
-    background-color: #f0f0f0; /* Add a background color to the header */
+    background-color: #f0f0f0;
+    /* Add a background color to the header */
 
 }
 
@@ -79,7 +96,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: center;
     border: 1px solid #ddd;
@@ -93,8 +111,9 @@ th {
 td input[type="checkbox"] {
     margin-left: 5px;
 }
+
 /* styling for success message */
-.green{
+.green {
     margin: 10px 0;
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
@@ -129,28 +148,29 @@ td input[type="checkbox"] {
 
 *,
 *:before,
-*:after{
+*:after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-.popup{
+.popup {
     background-color: #ffffff;
     width: 450px;
     padding: 30px 40px;
     position: absolute;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
     border-radius: 8px;
-    font-family: "Poppins",sans-serif;
+    font-family: "Poppins", sans-serif;
     display: none;
     text-align: center;
 }
-.popup button{
+
+.popup button {
     display: block;
-    margin:  0 0 20px auto;
+    margin: 0 0 20px auto;
     background-color: transparent;
     font-size: 30px;
     color: #c5c5c5;
@@ -158,7 +178,8 @@ td input[type="checkbox"] {
     outline: none;
     cursor: pointer;
 }
-.popup p{
+
+.popup p {
     font-size: 14px;
     text-align: justify;
     margin: 20px 0;
@@ -180,41 +201,42 @@ td input[type="checkbox"] {
     align-items: center;
     text-align: center;
 
-  }
-  
-  label {
+}
+
+label {
     display: block;
     margin-bottom: 5px;
-  }
-  
-  input {
+}
+
+input {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
-  }
-  
-  button {
+}
+
+button {
     background-color: #4caf50;
     color: white;
     padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #45a049;
-  }
-  
-  .error-message {
+}
+
+.error-message {
     color: red;
     margin-top: 10px;
-  }
+}
 
 
 
 @media (max-width: 768px) {
     .maanageWaiters {
-        grid-template-columns: 1fr; /* Single column layout on smaller screens */
+        grid-template-columns: 1fr;
+        /* Single column layout on smaller screens */
     }
 }
