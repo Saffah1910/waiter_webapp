@@ -7,64 +7,26 @@
 
 
 
-<form action="/days" method="get">
+    <form action="/days" method="get">
 
-        <div>
-            <h2>Day status</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                   
-                        <td>Monday</td>
-                        {{!-- name of all the users --}}
-                        {{#if waiterUsernames}}
-                        {{waiterUsernames}}
-                        {{/if}}
+        <h1>Usernames by Day</h1>
 
+{{#if clearData}}
+<p class="green">{{ clearData }}</p>
+{{/if}}
 
-                    </tr>
-                    <tr>
-                        <td>Tuesday</td>
-
-                    </tr>
-                    <tr>
-                        <td>Wednesday</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>Thursday</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>Friday</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>Saturday</td>
-
-                    </tr>
-
-                    <tr>
-                        <td>Sunday </td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-
-
-
+        <div style="border: black 2px solid;">
+            {{#each availability}}
+            <h2 style="border: black 2px solid;">{{@key}}</h2>
+            <ul>
+                {{#each this}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/each}}
         </div>
-        <button>Clear week data</button>
-
-    </div>
     </form>
+    <form action="/clear" method="post">
 
+        <button type="submit">Clear week data</button>
+    </form>

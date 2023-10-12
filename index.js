@@ -50,6 +50,8 @@ app.get('/waiters/:username',routesFunction.waiter);
 
 app.post('/waiters/:username', routesFunction.addWaiter);
 
+app.post('/clear',query.clearWeekshifts)
+
 
 
 const PORT = process.env.PORT || 3015;

@@ -7,32 +7,58 @@ export default function routes(dbLogic, frontEndLogic) {
    async function home (req,res){
     res.redirect('/days')
    }
+   async function clear(req,res){
+    dbLogic.clearWeekshifts();
+    req.flash('clear',"The weekly data has been cleared");
+    res.redirect('/days')
+   }
 
-async function adminPage(req, res) {
-
+   async function adminPage(req, res) {
     try {
+        // Initialize an object to store usernames by day
+        const availability = {
+            "Monday": [],
+            "Tuesday": [],
+            "Wednesday": [],
+            "Thursday": [],
+            "Friday": [],
+            "Saturday": [],
+            "Sunday": [],
+        };
+
         // Fetch the weekdays data from the database
         const weekdays = await dbLogic.showDays();
-        console.log(weekdays);
 
         // Extract the selected day from the request query parameters
         const { selectedDayId } = req.query;
 
-        // Use your dbLogic function to get the waiter usernames for the specified weekday
-        const waiterUsernames = await dbLogic.getWaitersForDay(selectedDayId);
-        console.log(waiterUsernames);
-        //call the functio that gets the id of the day and then based on that day
+        // Use your dbLogic function to get the waiter usernames for all days
+        const data = await dbLogic.getWaitersForDay();
+
+        // Populate the availability object based on the data fetched
+        data.forEach(waiter => {
+            const { weekday, username } = waiter;
+            if (availability[weekday]) {
+                availability[weekday].push(username);
+            }
+        });
+
+        console.log(availability);
+
+        let clearData = req.flash('clear')[0];
 
         res.render('admin', {
             weekdays,
             selectedDayId,
-            waiterUsernames,
+            availability,
+            clearData
         });
     } catch (error) {
         console.error('Error in adminPage route:', error.message);
         res.status(500).send('Internal Server Error');
     }
 }
+
 
 
 
@@ -92,7 +118,7 @@ async function adminPage(req, res) {
                 return res.status(500).send('Internal Server Error');
             }
     
-            console.log('Selected Days:', days);
+            // console.log('Selected Days:', days);
     
             if (Array.isArray(days)) {
                 // Iterate through selected days and add shifts
@@ -106,7 +132,7 @@ async function adminPage(req, res) {
                         return res.status(500).send('Internal Server Error');
                     }
     
-                    console.log(`Selected Day: ${day}, Weekday ID: ${weekdayId}`);
+                    // console.log(`Selected Day: ${day}, Weekday ID: ${weekdayId}`);
     
                     // Add the shift
                     await dbLogic.addShift(waiterId, weekdayId);
@@ -143,6 +169,7 @@ async function adminPage(req, res) {
 
     return {
         home,
+        clear,
         adminPage,
         waiter,
         addWaiter
