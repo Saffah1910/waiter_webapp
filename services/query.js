@@ -40,34 +40,33 @@ export default function waiterQuery(db) {
 
 
     // Function to add a shift for a waiter on a specific weekday
-    async function addShift(waiterId, weekdayId) {
-        try {
-            await db.none('INSERT INTO shifts (waiter_id, weekday_id) VALUES ($1, $2)', [waiterId, weekdayId]);
-            // Log success or return a success message
-        } catch (error) {
-            console.error('Error in addShift:', error.message);
-            throw error;
+    // async function addShift(waiterId, weekdayId) {
+    //     try {
+    //         await db.none('INSERT INTO shifts (waiter_id, weekday_id) VALUES ($1, $2)', [waiterId, weekdayId]);
+    //         // Log success or return a success message
+    //     } catch (error) {
+    //         console.error('Error in addShift:', error.message);
+    //         throw error;
+    //     }
+    // }
+async function addShift(waiterId, weekdayId) {
+    try {
+        // Check if the maximum number of waiters for the day has been reached
+        const currentWaitersCount = await db.one('SELECT COUNT(*) FROM shifts WHERE weekday_id = $1', [weekdayId]);
+        if (currentWaitersCount >= 3) {
+            console.error('Maximum waiters reached for this day.');
+            // Optionally, you might want to throw an error, log a message, or handle it based on your logic
+            return;
         }
-    }
-// Function to add a shift for a waiter on a specific weekday
-// async function addShift(waiterId, weekdayId) {
-//     try {
-//         // Check if the maximum number of waiters for the day has been reached
-//         const currentWaitersCount = await db.one('SELECT COUNT(*) FROM shifts WHERE weekday_id = $1', [weekdayId]);
-//         if (currentWaitersCount >= 3) {
-//             console.error('Maximum waiters reached for this day.');
-//             // Optionally, you might want to throw an error, log a message, or handle it based on your logic
-//             return;
-//         }
 
-//         // If the limit is not reached, add the shift
-//         await db.none('INSERT INTO shifts (waiter_id, weekday_id) VALUES ($1, $2)', [waiterId, weekdayId]);
-//         // Log success or return a success message
-//     } catch (error) {
-//         console.error('Error in addShift:', error.message);
-//         throw error;
-//     }
-// }
+        // If the limit is not reached, add the shift
+        await db.none('INSERT INTO shifts (waiter_id, weekday_id) VALUES ($1, $2)', [waiterId, weekdayId]);
+        // Log success or return a success message
+    } catch (error) {
+        console.error('Error in addShift:', error.message);
+        throw error;
+    }
+}
 
     // Function to get waiter ID by username
     async function getWaiterId(username) {
@@ -126,9 +125,14 @@ export default function waiterQuery(db) {
             throw error;
         }
     }
-    async function clearWeekshifts(){
-        await db.none('DELETE FROM shifts')
+    async function clearWeekshifts() {
+       
+            await db.none('DELETE FROM shifts;');
+    
+            await db.none('DELETE FROM waiter;');
+    
     }
+    
 
 
     return {

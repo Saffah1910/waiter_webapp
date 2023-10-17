@@ -30,13 +30,12 @@ app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: false,
   })
 );
 app.use(flash());
-
 
 
 
@@ -49,9 +48,9 @@ app.get('/waiters/:username', routesFunction.waiter);
 
 app.post('/waiters/:username', routesFunction.addWaiter);
 
-app.post('/clear', query.clearWeekshifts);
+app.post('/clear', routesFunction.clear);
 
-const PORT = process.env.PORT || 3015;
+const PORT = process.env.PORT || 3012;
 
 app.listen(PORT, function () {
   console.log('App started at port', PORT);

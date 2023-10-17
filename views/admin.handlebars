@@ -1,32 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .days-container {
+            display: flex;
+            text-align: center;
+        }
+
+        .day {
+            flex: 1;
+            border: 2px solid black;
+            padding: 10px;
+            margin: 0 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .orange {
+            background-color: orange;
+        }
+
+        .clear-button {
+            margin-top: 30px;
+            margin-left: 500px;
+        
+        }
+    </style>
+</head>
+
 <body>
     <header>
-        <img src="./css/icons8-coffee-100.png">
-        <h1>Welcome to the Admin Dashboard</h1>
+        <h1 >Welcome to the Admin Dashboard</h1>
+      {{!-- <img src="./css/icons8-coffee-100.png" alt="Coffee Icon"> --}}
     </header>
+    <br>
+    
 
+    <h1 style="text-align: center;">Manage Waiters</h1>
+    <br>
 
+    <form action="/days" method="get">
+        {{#if clearData}}
+        <p class="green">{{ clearData }}</p>
+        {{/if}}
 
-<form action="/days" method="get">
-    <h1>Usernames by Day</h1>
+        <div class="days-container">
+            {{#each availability}}
+            <div class="day {{ @key }}">
+                <h2>{{@key}}</h2>
+                {{#if this.length}}
+                <ul>
+                    {{#each this}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                {{else}}
+                <p style="color: #adb5bd;">No waiters available</p>
+                {{/if}}
+            </div>
+            {{/each}}
+        </div>
+    </form>
 
-    {{#if clearData}}
-    <p class="green">{{ clearData }}</p>
-    {{/if}}
+    <form action="/clear" method="post">
+        <button type="submit" class="clear-button"
+            onclick="return confirm('Are you sure you want to clear this week\'s data?')">Clear week data</button>
+    </form>
+</body>
 
-  <div>
-    {{#each availability}}
-    <h2 style="border: black 2px solid;" class="{{ @key}}">{{@key}}</h2>
-    <ul>
-        {{#each this}}
-        <li>{{this}}</li>
-        {{/each}}
-    </ul>
-    {{/each}}
-</div>
-
-
-</form>
-
-   {{!-- <form action="/clear" method="post"> --}}
-    <button type="submit"  onclick="return confirm('Are you sure you want to reset your data?')">Clear week data</button>
-{{!-- </form> --}}
+</html>
