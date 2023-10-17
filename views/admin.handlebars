@@ -6,27 +6,27 @@
 
 
 
+<form action="/days" method="get">
+    <h1>Usernames by Day</h1>
 
-    <form action="/days" method="get">
+    {{#if clearData}}
+    <p class="green">{{ clearData }}</p>
+    {{/if}}
 
-        <h1>Usernames by Day</h1>
+  <div>
+    {{#each availability}}
+    <h2 style="border: black 2px solid;" class="{{ @key}}">{{@key}}</h2>
+    <ul>
+        {{#each this}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+    {{/each}}
+</div>
 
-{{#if clearData}}
-<p class="green">{{ clearData }}</p>
-{{/if}}
 
-        <div style="border: black 2px solid;">
-            {{#each availability}}
-            <h2 style="border: black 2px solid;">{{@key}}</h2>
-            <ul>
-                {{#each this}}
-                <li>{{this}}</li>
-                {{/each}}
-            </ul>
-            {{/each}}
-        </div>
-    </form>
-    <form action="/clear" method="post">
+</form>
 
-        <button type="submit">Clear week data</button>
-    </form>
+   {{!-- <form action="/clear" method="post"> --}}
+    <button type="submit"  onclick="return confirm('Are you sure you want to reset your data?')">Clear week data</button>
+{{!-- </form> --}}

@@ -121,6 +121,9 @@ td input[type="checkbox"] {
     background-color: #DFF2BF;
 
 }
+.orange{
+    background-color: orange;
+}
 
 /* Styling for the overlay */
 .overlay {

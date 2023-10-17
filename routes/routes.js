@@ -1,8 +1,5 @@
 export default function routes(dbLogic, frontEndLogic) {
     //dbLogic must be a paramter
-
-
-
    // Inside your routes file
    async function home (req,res){
     res.redirect('/days')
@@ -13,56 +10,64 @@ export default function routes(dbLogic, frontEndLogic) {
     res.redirect('/days')
    }
 
+  function dayClasses() {
+    const numberOfWaiters = dayWaitersCount[dayName];
+    if (numberOfWaiters > 3) {
+      return 'red';
+    } else if (numberOfWaiters === 3) {
+      return 'green';
+    } else {
+      return 'orange';
+    }
+  }
+
+
    async function adminPage(req, res) {
     try {
-        // Initialize an object to store usernames by day
-        const availability = {
-            "Monday": [],
-            "Tuesday": [],
-            "Wednesday": [],
-            "Thursday": [],
-            "Friday": [],
-            "Saturday": [],
-            "Sunday": [],
-        };
-
-        // Fetch the weekdays data from the database
-        const weekdays = await dbLogic.showDays();
-
-        // Extract the selected day from the request query parameters
-        const { selectedDayId } = req.query;
-
-        // Use your dbLogic function to get the waiter usernames for all days
-        const data = await dbLogic.getWaitersForDay();
-
-        // Populate the availability object based on the data fetched
-        data.forEach(waiter => {
-            const { weekday, username } = waiter;
-            if (availability[weekday]) {
-                availability[weekday].push(username);
-            }
-        });
-
-        console.log(availability);
-
-        let clearData = req.flash('clear')[0];
-
-        res.render('admin', {
-            weekdays,
-            selectedDayId,
-            availability,
-            clearData
-        });
-    } catch (error) {
-        console.error('Error in adminPage route:', error.message);
-        res.status(500).send('Internal Server Error');
-    }
-}
-
-
-
-
+      // Initialize an object to store usernames by day
+      const availability = {
+        "Monday": [],
+        "Tuesday": [],
+        "Wednesday": [],
+        "Thursday": [],
+        "Friday": [],
+        "Saturday": [],
+        "Sunday": [],
+      };
   
+      // Fetch the weekdays data from the database
+      const weekdays = await dbLogic.showDays();
+  
+      // Use your dbLogic function to get the waiter usernames for all days
+      const data = await dbLogic.getWaitersForDay();
+  
+      // Populate the availability object based on the data fetched
+      data.forEach(waiter => {
+        const { weekday, username } = waiter;
+        if (availability[weekday]) {
+          availability[weekday].push(username);
+        }
+      });
+  
+      // Calculate the number of waiters for each day
+      const dayWaitersCount = {};
+      weekdays.forEach(day => {
+        const numberOfWaiters = availability[day.name] ? availability[day.name].length : 0;
+        dayWaitersCount[day.name] = numberOfWaiters;
+      });
+   
+
+    // Render the admin template with the dayClasses helper
+    res.render('admin', {
+      weekdays,
+      availability,
+      dayClasses,
+    });
+  } catch (error) {
+    console.error('Error in adminPage route:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
     async function waiter(req, res) {
         try {
             const { username } = req.params;
@@ -94,9 +99,7 @@ export default function routes(dbLogic, frontEndLogic) {
         }
     }
     
-    
-    
-    
+
     async function addWaiter(req, res) {
         try {
             const { username } = req.params;
@@ -163,11 +166,8 @@ export default function routes(dbLogic, frontEndLogic) {
         }
     }
     
-    
-
-
-
     return {
+      dayClasses,
         home,
         clear,
         adminPage,
