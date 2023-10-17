@@ -37,9 +37,11 @@ export default function routes(dbLogic, frontEndLogic) {
         const numberOfWaiters = availability[day.name] ? availability[day.name].length : 0;
         dayWaitersCount[day.name] = numberOfWaiters;
       });
+      console.log(data);
 
       async function dayClasses(dayName) {
         const numberOfWaiters = dayWaitersCount[dayName];
+        console.log(dayWaitersCount);
         if (numberOfWaiters > 3) {
           return 'red';
         } else if (numberOfWaiters === 3) {
