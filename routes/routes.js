@@ -8,63 +8,86 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
   async function adminPage(req, res) {
+    const dayWaitersCount = {};
     try {
       const availability = {
-        "Monday": [],
-        "Tuesday": [],
-        "Wednesday": [],
-        "Thursday": [],
-        "Friday": [],
-        "Saturday": [],
-        "Sunday": [],
+        "Monday": { x: [], stats: "" },
+        "Tuesday": { x: [], stats: "" },
+        "Wednesday": { x: [], stats: "" },
+        "Thursday": { x: [], stats: "" },
+        "Friday": { x: [], stats: "" },
+        "Saturday": { x: [], stats: "" },
+        "Sunday": { x: [], stats: "" }
       };
+
 
       const weekdays = await dbLogic.showDays();
 
       const data = await dbLogic.getWaitersForDay();
 
       // Populate the availability object based on the data fetched
-      data.forEach(waiter => {
+      await Promise.all(data.map(async (waiter) => {
         const { weekday, username } = waiter;
         if (availability[weekday]) {
-          availability[weekday].push(username);
+          availability[weekday].x.push(username);
+
+          // Wait for the Promise to resolve before assigning to stats
+          availability[weekday].stats = await dayClasses(weekday);
         }
-      });
+      }));
+      console.log(availability);
 
-      // Calculate the number of waiters for each day
-      const dayWaitersCount = {};
-      weekdays.forEach(day => {
-        const numberOfWaiters = availability[day.name] ? availability[day.name].length : 0;
-        dayWaitersCount[day.name] = numberOfWaiters;
-      });
-      console.log(data);
-
-      async function dayClasses(dayName) {
-        const numberOfWaiters = dayWaitersCount[dayName];
-        console.log(dayWaitersCount);
-        if (numberOfWaiters > 3) {
-          return 'red';
-        } else if (numberOfWaiters === 3) {
-          return 'green';
-        } else {
-          return 'orange';
+      const numberOfPeople = {};
+      for (const day in availability) {
+        if (availability.hasOwnProperty(day)) {
+          const numberOfPeopleInDay = availability[day].x.length;
+          numberOfPeople[day] = numberOfPeopleInDay;
         }
       }
-      console.log('Flash message set:', req.flash('clear'));
-      const clearData = req.flash('clear')[0];
+      
+      // Log the result
+      console.log(numberOfPeople);
 
+    async function dayClasses(dayName) {
+  // Instead of dayWaitersCount, use availability[dayName].x.length
+  const numberOfWaiters = availability[dayName].x.length;
+
+  if (numberOfWaiters > 3) {
+    return 'red';
+  } else if (numberOfWaiters === 3) {
+    return 'green';
+  } else {
+    return 'orange';
+  }
+}
+
+      let shifts = [];
+
+      weekdays.forEach(dayName => {
+        let shift = {
+          shift_day: dayName,
+          waiters: []
+        };
+        shifts.push(shift);
+      });
+
+      const clearData = req.flash('clearSucesss')[0];
+
+      // Pass the dayClasses function itself, not the result
       res.render('admin', {
         weekdays,
         availability,
         clearData,
         dayClasses,
+        shifts,
       });
     } catch (error) {
       console.error('Error in adminPage route:', error.message);
       res.status(500).send('Internal Server Error');
     }
-
   }
+
+
 
   async function waiter(req, res) {
     try {
@@ -139,7 +162,6 @@ export default function routes(dbLogic, frontEndLogic) {
           await dbLogic.addShift(waiterId, weekdayId);
         }
       } else {
-        // Uncomment this part
         const weekdayId = await dbLogic.getWeekdayId(days);
 
         // Check if weekdayId is valid
@@ -155,17 +177,15 @@ export default function routes(dbLogic, frontEndLogic) {
       // Set success flash message
       req.flash('success', 'Waiter and shifts added successfully');
 
-      // Redirect to the waiter page after adding shifts
       res.redirect(`/waiters/${username}`);
     } catch (error) {
       console.error('Error in addWaiter:', error.message);
-      // Handle the error and send an appropriate response
       res.status(500).send('Internal Server Error');
     }
   }
   async function clear(req, res) {
     await dbLogic.clearWeekshifts();
-    req.flash('clear', 'The weekly data has been cleared');
+    req.flash('clearSucesss', 'The weekly data has been cleared');
     console.log('Flash message set:', req.flash('clear'));
     res.redirect('/days');
   }

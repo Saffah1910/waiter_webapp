@@ -45,48 +45,52 @@
         }
 
         .red {
-            background-color: red;
+            background-color: #f38375;
+            border: #780116 3px solid;
         }
 
-        .green {
-            background-color: green;
-        }
 
         .orange {
-            background-color: orange;
+            background-color: #ffbf69;
+            border: #f3722c 3px solid;
         }
 
         .clear-button {
             margin-top: 30px;
-            margin-left: 500px;
-        
+            margin-left: 650px;
+
+        }
+
+        .green {
+            background-color: #c1ff9b;
+            border: #04471c 3px solid;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1 >Welcome to the Admin Dashboard</h1>
-      {{!-- <img src="./css/icons8-coffee-100.png" alt="Coffee Icon"> --}}
+        <h1>Welcome to the Admin Dashboard</h1>
+        {{!-- <img src="./css/icons8-coffee-100.png" alt="Coffee Icon"> --}}
     </header>
     <br>
-    
+
 
     <h1 style="text-align: center;">Manage Waiters</h1>
     <br>
 
     <form action="/days" method="get">
         {{#if clearData}}
-        <p class="green">{{ clearData }}</p>
+        <p class="greenMessage">{{ clearData }}</p>
         {{/if}}
 
         <div class="days-container">
             {{#each availability}}
-            <div class="day {{ @key }}">
+            <div class="day {{ @key }} {{#if this.stats}}{{this.stats}} {{/if}}">
                 <h2>{{@key}}</h2>
-                {{#if this.length}}
+                {{#if this.x.length}}
                 <ul>
-                    {{#each this}}
+                    {{#each this.x}}
                     <li>{{this}}</li>
                     {{/each}}
                 </ul>
@@ -96,12 +100,20 @@
             </div>
             {{/each}}
         </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector(".greenMessage").style.display = "none";
+            }, 4000)
+        </script>
+
+
     </form>
 
     <form action="/clear" method="post">
         <button type="submit" class="clear-button"
             onclick="return confirm('Are you sure you want to clear this week\'s data?')">Clear week data</button>
     </form>
+
 </body>
 
 </html>

@@ -104,12 +104,12 @@ td input[type="checkbox"] {
 }
 
 /* styling for success message */
-.green {
+.greenMessage {
     margin: 10px 0;
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
     color: #270;
-    background-color: #DFF2BF;
+    background-color: #DFF2BF; 
 
 }
 
@@ -225,6 +225,14 @@ button:hover {
 .error-message {
     color: red;
     margin-top: 10px;
+}
+.red {
+    background-color: red;
+}
+
+
+.orange {
+    background-color: blueviolet;
 }
 
 
