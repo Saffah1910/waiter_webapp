@@ -1,17 +1,13 @@
-export default function waiterQuery(db) {
-    // Function to insert a waiter name if it doesn't exist
+export default function waiterQuery(db, frontEndLogic) {
+
     async function insertWaiterName(name) {
-        try {
+
             const existingUserName = await db.oneOrNone('SELECT username FROM waiter WHERE username = $1', [name]);
-            if (!existingUserName) {
+            const validUsername = frontEndLogic.checkUsername(name)
+            if (!existingUserName && validUsername) {
                 await db.none('INSERT INTO waiter(username) VALUES ($1)', [name]);
-                // Log success or return a success message
             }
-            // Optionally, you might want to handle the case where the username already exists
-        } catch (error) {
-            console.error('Error in insertWaiterName:', error.message);
-            throw error;
-        }
+      
     }
 
     // Function to get waiter availability
@@ -39,16 +35,6 @@ export default function waiterQuery(db) {
     }
 
 
-    // Function to add a shift for a waiter on a specific weekday
-    // async function addShift(waiterId, weekdayId) {
-    //     try {
-    //         await db.none('INSERT INTO shifts (waiter_id, weekday_id) VALUES ($1, $2)', [waiterId, weekdayId]);
-    //         // Log success or return a success message
-    //     } catch (error) {
-    //         console.error('Error in addShift:', error.message);
-    //         throw error;
-    //     }
-    // }
     async function addShift(waiterId, weekdayId) {
         try {
             // Check if the maximum number of waiters for the day has been reached
@@ -116,14 +102,14 @@ export default function waiterQuery(db) {
     }
     async function getWaitersForDay() {
         try {
-           
+
             const queryResult = await db.any(`
             SELECT DISTINCT waiter.username, weekdays.weekday
             FROM shifts
             INNER JOIN waiter ON shifts.waiter_id = waiter.id
             INNER JOIN weekdays ON shifts.weekday_id = weekdays.id
         `);
-        
+
 
             // const waiterUsernames = queryResult.map(result => result.username);
             return queryResult;
@@ -135,13 +121,23 @@ export default function waiterQuery(db) {
 
     async function getWaitersCountForDay(dayName) {
         try {
-          const result = await db.one('SELECT COUNT(*) FROM shifts INNER JOIN weekdays ON shifts.weekday_id = weekdays.id WHERE weekdays.weekday = $1', [dayName]);
-          return result.count;
+            const result = await db.one('SELECT COUNT(*) FROM shifts INNER JOIN weekdays ON shifts.weekday_id = weekdays.id WHERE weekdays.weekday = $1', [dayName]);
+            return result.count;
         } catch (error) {
-          console.error('Error in getWaitersCountForDay:', error.message);
-          throw error;
+            console.error('Error in getWaitersCountForDay:', error.message);
+            throw error;
         }
-      }
+    }
+
+    async function removeShiftsForWaiter(waiterId) {
+        try {
+            await db.none('DELETE FROM shifts WHERE waiter_id = $1', [waiterId]);
+            // Log success or return a success message
+        } catch (error) {
+            console.error('Error in removeShiftsForWaiter:', error.message);
+            throw error;
+        }
+    }
 
     async function clearWeekshifts() {
 
@@ -150,6 +146,7 @@ export default function waiterQuery(db) {
         await db.none('DELETE FROM waiter;');
 
     }
+    
 
 
 
@@ -163,6 +160,7 @@ export default function waiterQuery(db) {
         getSelectedDaysForWaiter,
         getWaitersForDay,
         getWaitersCountForDay,
+        removeShiftsForWaiter,
         clearWeekshifts
     };
 }

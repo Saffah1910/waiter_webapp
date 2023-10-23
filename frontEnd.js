@@ -5,7 +5,7 @@ export default function frontendWaiters (db){
 
 //checkUser function is going to test the username entered by the waiter to only take valid names
     function checkUsername(name){
-        let regex = (/^[a-zA-Z]\S+$/);
+        let regex = (/^[a-zA-Z][^0-9\s]*$/);
         var valid = regex.test(name);
         return valid;
 

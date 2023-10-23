@@ -18,12 +18,20 @@ const db = pgp(connectionString);
 
 const app = express();
 const frontEndLogic = frontendWaiters(db);
-const query = waiterQuery(db);
+const query = waiterQuery(db,frontEndLogic);
 const routesFunction = routes(query, frontEndLogic);
 
-// Set up Handlebars
-app.engine('handlebars', engine({ handlebars: Handlebars }));
-app.set('view engine', 'handlebars');
+app.engine(
+  'handlebars',
+  engine({
+    handlebars: Handlebars,
+    helpers: {
+      json: function (context) {
+        return JSON.stringify(context);
+      },
+    },
+  })
+);app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -47,6 +55,14 @@ app.get('/days', routesFunction.adminPage);
 app.get('/waiters/:username', routesFunction.waiter);
 
 app.post('/waiters/:username', routesFunction.addWaiter);
+
+app.get('/views/seeMore', (req, res) => {
+  // Construct the path to the seeMore.handlebars template
+  const seeMorePath = path.join(__dirname, 'views', 'seeMore');
+
+  // Render the seeMore.handlebars template
+  res.render(seeMorePath);
+});
 
 app.post('/clear', routesFunction.clear);
 

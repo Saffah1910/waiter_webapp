@@ -14,37 +14,38 @@ describe('Waiter front end', function () {
         var frontEndTest = frontendWaiters();
         assert.equal(true, frontEndTest.checkUsername('saffah'));
     });
-    it('should return a message if name is not entered',function(){
+    it('should return a message if name is not entered', function () {
         var frontEndTest = frontendWaiters();
-        assert.equal("Please provide a username",frontEndTest.setError(""))
+        assert.equal("Please provide a username", frontEndTest.setError(""))
 
     });
-    it('should return a message if invalid name is entered',function(){
+    it('should return a message if invalid name is entered', function () {
         var frontEndTest = frontendWaiters();
-        assert.equal("Please enter a valid username",frontEndTest.setError('123saZ'))
+        assert.equal("Please enter a valid username", frontEndTest.setError('123saZ'))
 
     });
 
 });
-// describe('waiterQuery', function () {
-//     this.timeout(20000);
+describe('waiterQuery', function () {
+    this.timeout(20000);
 
-//     beforeEach(async function () {
-//         await db.none("DELETE FROM waiter")
-//     })
-//     it('should insert a waiter name into the database', async () => {
-//         const db = pgp('your-database-connection-string');
-//         const query = waiterQuery(db);
-//         const waiterName = 'John Doe';
+    beforeEach(async function () {
+        await db.none('DELETE FROM shifts WHERE waiter_id = $1', [waiterId]);
+        await db.none('DELETE FROM waiter WHERE waiter_id = $1', [waiterId]);
+    })
+    it('inserts a waiter name into the table and handles duplicates', async () => {
+        const query = waiterQuery(db, frontendWaiters());
 
-//         // Ensure that the function resolves without errors
-//         await assert.equal(query.insertWaiterName(waiterName)).to.be.fulfilled;
+        const waiterName = 'John';
 
-//         // Check if the waiter was actually added to the database
-//         const result = await db.oneOrNone('SELECT username FROM waiter WHERE username = $1', [waiterName]);
-//         assert.isDefined(result);
-//         assert.equal(result.username, waiterName);
-//     });
+        await assert.isRejected(query.oneOrNone('SELECT username FROM waiter WHERE username = $1', [waiterName]), /Query returned no rows/);
+        await assert.isFulfilled(query.none('INSERT INTO waiter(username) VALUES ($1)', [waiterName]));
+
+        await query.insertWaiterName(waiterName);
+
+        assert.isFulfilled(query.oneOrNone('SELECT username FROM waiter WHERE username = $1', [waiterName]));
+        assert.isRejected(query.none('INSERT INTO waiter(username) VALUES ($1)', [waiterName]), /Query returned no rows/);
+    });
 
 
-// });
+});

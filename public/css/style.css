@@ -117,69 +117,9 @@ td input[type="checkbox"] {
     background-color: orange;
 }
 
-/* Styling for the overlay */
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/* Styling for the popup container */
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
 
 
-*,
-*:before,
-*:after {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
 
-.popup {
-    background-color: #ffffff;
-    width: 450px;
-    padding: 30px 40px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-    border-radius: 8px;
-    font-family: "Poppins", sans-serif;
-    display: none;
-    text-align: center;
-}
-
-.popup button {
-    display: block;
-    margin: 0 0 20px auto;
-    background-color: transparent;
-    font-size: 30px;
-    color: #c5c5c5;
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-
-.popup p {
-    font-size: 14px;
-    text-align: justify;
-    margin: 20px 0;
-    line-height: 25px;
-}
 
 
 
