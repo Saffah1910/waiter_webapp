@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
         }
+        
 
         header {
             background-color: #f0f0f0;
@@ -162,39 +163,37 @@
             </div>
         </div>
 
-        <script>
-            handlebars.registerHelper('json', function (context) {
-                return JSON.stringify(context);
-            });
+       <script>
+          //  handlebars.registerHelper('json', function (context) {
+            //    return JSON.stringify(context);
+           // });
 
             // Now, you can use the `json` helper in your Handlebars templates
-            const template = handlebars.compile('{{json data}}');
-            const result = template({ data: { key: 'value' } });
-            console.log(result);
+          //  const template = handlebars.compile('{{json data}}');
+            //const result = template({ data: { key: 'value' } });
+           // console.log(result);
 
-            function openPopup(day, waiters) {
+           // function openPopup(day, waiters) {
                 // Set popup content based on the clicked day
-                document.getElementById('popupTitle').innerText = `Details for ${day}`;
-                const popupContent = document.getElementById('popupContent');
-                popupContent.innerHTML = '';
-                waiters.forEach(waiter => {
-                    const li = document.createElement('li');
-                    li.innerText = waiter;
-                    popupContent.appendChild(li);
-                });
+             //   document.getElementById('popupTitle').innerText = `Details for ${day}`;
+             //   const popupContent = document.getElementById('popupContent');
+              //  popupContent.innerHTML = '';
+              //  waiters.forEach(waiter => {
+                  //  const li = document.createElement('li');
+                   // li.innerText = waiter;
+                  //  popupContent.appendChild(li);
+             //   });
 
                 // Show overlay and popup
-                document.getElementById('overlay').style.display = 'block';
-                document.getElementById('popup').style.display = 'block';
-            }
-
-            function closePopup() {
+             //   document.getElementById('overlay').style.display = 'block';
+               // document.getElementById('popup').style.display = 'block';
+            //}
+        //    function closePopup() {
                 // Hide overlay and popup
-                document.getElementById('overlay').style.display = 'none';
-                document.getElementById('popup').style.display = 'none';
-            }
+          //      document.getElementById('overlay').style.display = 'none';
+            //    document.getElementById('popup').style.display = 'none';
+            //}
 
-            // Your existing timeout script
 
         </script>
     </form>

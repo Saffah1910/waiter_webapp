@@ -66,7 +66,7 @@ app.get('/views/seeMore', (req, res) => {
 
 app.post('/clear', routesFunction.clear);
 
-const PORT = process.env.PORT || 3011
+const PORT = process.env.PORT || 3012
 ;
 
 app.listen(PORT, function () {
