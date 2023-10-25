@@ -122,25 +122,29 @@
         <p class="greenMessage">{{ clearData }}</p>
         {{/if}}
 
-        <div class="days-container">
-            {{#each availability}}
-            <div class="day {{ @key }} {{#if this.stats}}{{this.stats}} {{/if}}">
+       <div class="days-container">
+    {{#each availability}}
+    <div class="day {{ @key }} {{#if this.stats}}{{this.stats}} {{/if}}">
 
-                <h2>{{@key}}</h2>
-                {{#if this.x.length}}
-                <ul>
-                    {{#each this.x}}
-                    <li>{{this}}</li>
-                    {{/each}}
-                </ul>
-                {{else}}
-                <p style="color: #adb5bd;">No waiters available</p>
-                {{/if}}
-                {{!-- <a href="#" class="button-like" onclick="openPopup('{{@key}}', {{json this.x}})">See Details</a> --}}
-
-            </div>
+        <h2>{{@key}}</h2>
+        {{#if this.x.length}}
+        <ul>
+            {{#each this.x}}
+            <li>
+                <span>{{this}}</span>
+                <button style="border: 2px solid black; background-color:#adb5bd" onclick="return confirm('Do you want to remove {{this}}')">x</button>
+            </li>
             {{/each}}
-        </div>
+        </ul>
+        {{else}}
+        <p style="color: #adb5bd;">No waiters available</p>
+        {{/if}}
+        {{!-- <a href="#" class="button-like" onclick="openPopup('{{@key}}', {{json this.x}})">See Details</a> --}}
+
+    </div>
+    {{/each}}
+</div>
+
         <script>
             setTimeout(function () {
                 document.querySelector(".greenMessage").style.display = "none";
