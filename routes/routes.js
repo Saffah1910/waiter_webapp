@@ -5,7 +5,15 @@ export default function routes(dbLogic, frontEndLogic) {
     res.redirect('/days')
   }
 
+  function time() {
+    let actionTime = settingsBill.actions();
 
+    for (let i = 0; i < actionTime.length; i++) {
+        actionTime[i].timestamp = moment().fromNow();
+    }
+
+    return actionTime;
+}
 
   async function adminPage(req, res) {
     const dayWaitersCount = {};
@@ -202,6 +210,7 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
   return {
+    time,
     home,
     clear,
     adminPage,

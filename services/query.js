@@ -1,11 +1,15 @@
 export default function waiterQuery(db, frontEndLogic) {
 
+    // Function to insert a waiter name if it doesn't exist
     async function insertWaiterName(name) {
 
+
+      
             const existingUserName = await db.oneOrNone('SELECT username FROM waiter WHERE username = $1', [name]);
             const validUsername = frontEndLogic.checkUsername(name)
             if (!existingUserName && validUsername) {
                 await db.none('INSERT INTO waiter(username) VALUES ($1)', [name]);
+                // Log success or return a success message
             }
       
     }
@@ -13,7 +17,7 @@ export default function waiterQuery(db, frontEndLogic) {
     // Function to get waiter availability
     async function getWaiterAvailability(username) {
         try {
-            getWaiterAvailability
+            // getWaiterAvailability
             const weekdays = await db.any('SELECT * FROM weekdays');
             const selectedDays = await db.any('SELECT weekday_id FROM shifts WHERE waiter_id = (SELECT id FROM waiter WHERE username = $1)', [username]);
 
@@ -35,6 +39,7 @@ export default function waiterQuery(db, frontEndLogic) {
     }
 
 
+  
     async function addShift(waiterId, weekdayId) {
         try {
             // Check if the maximum number of waiters for the day has been reached
@@ -56,7 +61,6 @@ export default function waiterQuery(db, frontEndLogic) {
 
     // Function to get waiter ID by username
     async function getWaiterId(username) {
-        try {
             const result = await db.oneOrNone('SELECT id FROM waiter WHERE username = $1', [username]);
 
             if (result) {
@@ -65,10 +69,7 @@ export default function waiterQuery(db, frontEndLogic) {
                 console.error(`No waiter ID found for '${username}'`);
                 return null;
             }
-        } catch (error) {
-            console.error('Error in getWaiterId:', error.message);
-            throw error;
-        }
+    
     }
 
 
@@ -146,7 +147,6 @@ export default function waiterQuery(db, frontEndLogic) {
         await db.none('DELETE FROM waiter;');
 
     }
-    
 
 
 

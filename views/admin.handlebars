@@ -116,6 +116,7 @@
     <h1 style="text-align: center;">Manage Waiters</h1>
     <br>
 
+
     <form action="/days" method="get">
         {{#if clearData}}
         <p class="greenMessage">{{ clearData }}</p>
@@ -135,25 +136,26 @@
                 {{else}}
                 <p style="color: #adb5bd;">No waiters available</p>
                 {{/if}}
-                <a href="#" class="button-like" onclick="openPopup('{{@key}}', {{json this.x}})">See Details</a>
+                {{!-- <a href="#" class="button-like" onclick="openPopup('{{@key}}', {{json this.x}})">See Details</a> --}}
 
             </div>
             {{/each}}
         </div>
         <script>
-               setTimeout(function () {
+            setTimeout(function () {
                 document.querySelector(".greenMessage").style.display = "none";
             }, 4000);
         </script>
 
 
-{{!-- code for the popup of each dat --}}
+        {{!-- code for the popup of each dat --}}
         <div class="overlay" id="overlay"></div>
         <div class="popup" id="popup">
             <span onclick="closePopup()" style="cursor: pointer;">&times;</span>
             <h2 id="popupTitle"></h2>
-            <ul id="popupContent"></ul>
-            <button>Remove this waiter</button>
+            <div style="display: flex;">
+                <ul id="popupContent"></ul>  <span style="cursor: pointer;">X</span>
+            </div>
         </div>
 
         <script>
@@ -189,7 +191,7 @@
             }
 
             // Your existing timeout script
-         
+
         </script>
     </form>
 
