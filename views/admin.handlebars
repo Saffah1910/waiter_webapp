@@ -9,6 +9,9 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #dedcda;
+            background-image: url(/css/cafeBg.png);
+            background-repeat: no-repeat;
+            background-size: cover;
 
         }
 
@@ -27,6 +30,12 @@
         .days-container {
             display: flex;
             text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 20px;
+
+            padding: 20px;
         }
 
         .day {
@@ -34,7 +43,7 @@
             flex: 1;
             border: 2px solid black;
             margin: 0 5px;
-          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
         .days-container :hover {
