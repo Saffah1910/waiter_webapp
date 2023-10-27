@@ -1,4 +1,4 @@
-[![Node.js CI](https://github.com/Saffah1910/waiter_webapp/actions/workflows/node.js.yml/badge.svg)](https://github.com/Saffah1910/waiter_webapp/actions/workflows/node.js.yml)
+
 
 
 # What does this project do ?
