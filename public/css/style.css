@@ -3,6 +3,10 @@
     src: url(ModernScript-yyWe.ttf);
 
 }
+@font-face {
+    font-family: admin;
+    src: url(Sundaycoffee-X3JKg.ttf);
+}
 
 body {
     /* background-image: url(./pxfuel.jpg); */
@@ -23,21 +27,6 @@ body {
     align-items: center
 }
 
-;
-
-.availability-taken {
-    color: green;
-    /* Green checkmark for taken days */
-    font-size: 24px;
-    /* Adjust font size as needed */
-}
-
-.availability-not-taken {
-    color: red;
-    /* Red "X" for not taken days */
-    font-size: 24px;
-    /* Adjust font size as needed */
-}
 
 .maanageWaiters {
     display: grid;
@@ -75,10 +64,10 @@ body {
 
 header {
 
-    font-family: cafeHeading;
+    font-family: admin;
     text-align: center;
     display: flex;
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
 
 }
 

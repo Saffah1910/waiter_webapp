@@ -2,17 +2,23 @@ export default function waiterQuery(db, frontEndLogic) {
 
     // Function to insert a waiter name if it doesn't exist
     async function insertWaiterName(name) {
-
-
-      
-            const existingUserName = await db.oneOrNone('SELECT username FROM waiter WHERE username = $1', [name]);
-            const validUsername = frontEndLogic.checkUsername(name)
-            if (!existingUserName && validUsername) {
-                await db.none('INSERT INTO waiter(username) VALUES ($1)', [name]);
+        try {
+            const lowercasedName = name.toLowerCase(); 
+    
+            // Check if the lowercase name already exists in the database
+            const existingUserName = await db.oneOrNone('SELECT username FROM waiter WHERE LOWER(username) = $1', [lowercasedName]);
+    
+            if (!existingUserName ) {
+                // If the lowercase name doesn't exist, insert the name in consistent case
+                await db.none('INSERT INTO waiter(username) VALUES ($1)', [lowercasedName]);
                 // Log success or return a success message
             }
-      
+        } catch (error) {
+            console.error('Error in insertWaiterName:', error.message);
+            throw error;
+        }
     }
+    
 
     // Function to get waiter availability
     async function getWaiterAvailability(username) {
@@ -92,15 +98,16 @@ export default function waiterQuery(db, frontEndLogic) {
 
 
 
-    // Function to show all weekdays
     async function showDays() {
         try {
-            return await db.any('SELECT * FROM weekdays;');
+            return await db.many('SELECT * FROM weekdays;');
         } catch (error) {
             console.error('Error in showDays:', error.message);
             throw error;
         }
     }
+
+    
     async function getWaitersForDay() {
         try {
 

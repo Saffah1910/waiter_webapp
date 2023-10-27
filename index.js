@@ -64,6 +64,10 @@ app.get('/views/seeMore', (req, res) => {
   res.render(seeMorePath);
 });
 
+
+// app.post('/remove-waiter-for-day', routesFunction.removeWaiter);
+
+
 app.post('/clear', routesFunction.clear);
 
 const PORT = process.env.PORT || 3012

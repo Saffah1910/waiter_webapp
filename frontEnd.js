@@ -23,11 +23,17 @@ function setError(name){
     
 }
 
+function isValidDaySelection(days) {
+    return days.length >= 3 && days.length <= 5;
+  }
+  
+
 
 
     return{
         checkUsername,
-        setError
+        setError,
+        isValidDaySelection
     }
 
 }

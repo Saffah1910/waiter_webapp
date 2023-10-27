@@ -5,15 +5,6 @@ export default function routes(dbLogic, frontEndLogic) {
     res.redirect('/days')
   }
 
-  function time() {
-    let actionTime = settingsBill.actions();
-
-    for (let i = 0; i < actionTime.length; i++) {
-        actionTime[i].timestamp = moment().fromNow();
-    }
-
-    return actionTime;
-}
 
   async function adminPage(req, res) {
     const dayWaitersCount = {};
@@ -43,7 +34,6 @@ export default function routes(dbLogic, frontEndLogic) {
           availability[weekday].stats = await dayClasses(weekday);
         }
       }));
-      console.log(availability);
 
       const numberOfPeople = {};
       for (const day in availability) {
@@ -53,11 +43,9 @@ export default function routes(dbLogic, frontEndLogic) {
         }
       }
 
-      // Log the result
-      console.log(numberOfPeople);
+ 
 
       async function dayClasses(dayName) {
-        // Instead of dayWaitersCount, use availability[dayName].x.length
         const numberOfWaiters = availability[dayName].x.length;
 
         if (numberOfWaiters > 3) {
@@ -81,7 +69,6 @@ export default function routes(dbLogic, frontEndLogic) {
 
       const clearData = req.flash('clearSucesss')[0];
 
-      // Pass the dayClasses function itself, not the result
       res.render('admin', {
         weekdays,
         availability,
@@ -101,8 +88,7 @@ export default function routes(dbLogic, frontEndLogic) {
     try {
       const { username } = req.params;
 
-      // Fetch the weekdays data from the database
-      const weekdays = await dbLogic.showDays(); // You need to implement this function in dbLogic
+      const weekdays = await dbLogic.showDays();
 
       // Fetch the selected days for the current waiter
       const waiterId = await dbLogic.getWaiterId(username);
@@ -136,70 +122,60 @@ export default function routes(dbLogic, frontEndLogic) {
     try {
       const { username } = req.params;
       const { days } = req.body;
-
+  
       const validUsername = frontEndLogic.checkUsername(username);
       if (!validUsername) {
-        req.flash('error', "Please enter valid username.");  
-        //after the message it mst then go back to the waiter page   
+        req.flash('error', 'Please enter a valid username.');
         res.redirect(`/waiters/${username}`);
-        }
-      else {
-        await dbLogic.insertWaiterName(username);
-
-        // Get the waiter ID based on the waiter's name
-        const waiterId = await dbLogic.getWaiterId(username);
-        if (days.length < 3 || days.length > 5) {
-          req.flash('error', "Please choose between 3 to 5 days.");
-          return res.redirect(`/waiters/${username}`);
-        }
-
-        // Check if waiterId is valid
+        return;
+      }
+  
+      if (!frontEndLogic.isValidDaySelection(days)) {
+        req.flash('error', 'Please choose between 3 to 5 days.');
+        res.redirect(`/waiters/${username}`);
+        return;
+      }
+  
+      // Validate and insert waiter
+      let waiterId;
+      try {
+        // Check if the waiter already exists
+        waiterId = await dbLogic.getWaiterId(username);
         if (!waiterId || isNaN(waiterId)) {
-          console.error(`Invalid waiter ID found for '${username}'`);
+          // Insert the waiter
+          await dbLogic.insertWaiterName(username);
+          waiterId = await dbLogic.getWaiterId(username);
+        }
+      } catch (error) {
+        console.error(`Error in validateAndInsertWaiter: ${error.message}`);
+        return res.status(500).send('Internal Server Error');
+      }
+  
+      // Remove existing shifts for the waiter
+      await dbLogic.removeShiftsForWaiter(waiterId);
+  
+      // Add new shifts
+      const daysArray = Array.isArray(days) ? days : [days];
+      for (const day of daysArray) {
+        const weekdayId = await dbLogic.getWeekdayId(day);
+  
+        if (!weekdayId || isNaN(weekdayId)) {
+          console.error(`Invalid weekday ID found for '${day}'`);
           return res.status(500).send('Internal Server Error');
         }
-
-        // Remove existing shifts for the waiter
-        await dbLogic.removeShiftsForWaiter(waiterId);
-
-        if (Array.isArray(days)) {
-          // Iterate through selected days and add shifts
-          for (const day of days) {
-            // Get the weekday ID based on the selected day
-            const weekdayId = await dbLogic.getWeekdayId(day);
-
-            // Check if weekdayId is valid
-            if (!weekdayId || isNaN(weekdayId)) {
-              console.error(`Invalid weekday ID found for '${day}'`);
-              return res.status(500).send('Internal Server Error');
-            }
-
-            // Add the shift
-            await dbLogic.addShift(waiterId, weekdayId);
-          }
-        } else {
-          const weekdayId = await dbLogic.getWeekdayId(days);
-
-          // Check if weekdayId is valid
-          if (!weekdayId || isNaN(weekdayId)) {
-            console.error(`Invalid weekday ID found for '${days}'`);
-            return res.status(500).send('Internal Server Error');
-          }
-
-          // Add the shift
-          await dbLogic.addShift(waiterId, weekdayId);
-        }
-
-        // Set success flash message
-        req.flash('success', 'Waiter and shifts added/updated successfully');
-
-        res.redirect(`/waiters/${username}`);
+  
+        await dbLogic.addShift(waiterId, weekdayId);
       }
+  
+      // Set success flash message
+      req.flash('success', 'Waiter and shifts added/updated successfully');
+      res.redirect(`/waiters/${username}`);
     } catch (error) {
       console.error('Error in addWaiter:', error.message);
       res.status(500).send('Internal Server Error');
     }
   }
+  
 
   async function clear(req, res) {
     await dbLogic.clearWeekshifts();
@@ -210,7 +186,7 @@ export default function routes(dbLogic, frontEndLogic) {
 
 
   return {
-    time,
+
     home,
     clear,
     adminPage,
