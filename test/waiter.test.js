@@ -26,7 +26,7 @@ describe('Waiter front end', function () {
     });
 
 });
-describe('waiterQuery', function () {
+describe('Database functions', function () {
 
 
     this.timeout(20000);

@@ -25,7 +25,7 @@ export default function waiterQuery(db, frontEndLogic) {
         try {
             // getWaiterAvailability
             const weekdays = await db.any('SELECT * FROM weekdays');
-            const selectedDays = await db.any('SELECT weekday_id FROM shifts WHERE waiter_id = (SELECT id FROM waiter WHERE username = $1)', [username]);
+            const selectedDays = await db.oneOrNone('SELECT weekday_id FROM shifts WHERE waiter_id = (SELECT id FROM waiter WHERE username = $1)', [username]);
 
             return { weekdays, selectedDays };
         } catch (error) {
@@ -34,16 +34,21 @@ export default function waiterQuery(db, frontEndLogic) {
         }
     }
 
+ 
+    
+   
+    
+ 
     async function getSelectedDaysForWaiter(waiterId) {
         try {
-            const selectedDays = await db.any('SELECT weekday_id FROM shifts WHERE waiter_id = $1', [waiterId]);
+            const selectedDays = await db.query('SELECT weekday_id FROM shifts WHERE waiter_id = $1', [waiterId]);
             return selectedDays.map(row => row.weekday_id);
         } catch (error) {
             console.error('Error in getSelectedDaysForWaiter:', error.message);
             throw error;
         }
     }
-
+    
 
   
     async function addShift(waiterId, weekdayId) {
