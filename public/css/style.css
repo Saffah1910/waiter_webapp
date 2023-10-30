@@ -28,38 +28,8 @@ body {
 }
 
 
-.maanageWaiters {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 10px;
-    margin: 20px;
 
-    padding: 20px;
-    /* Add padding for spacing */
-}
 
-.maanageWaiters p {
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    background-color: #7f5539;
-    /* Set your preferred background color */
-    padding: 10px;
-    /* Add padding for spacing */
-    font-size: 16px;
-    /* Set your preferred font size */
-    line-height: 1.5;
-    /* Adjust line height for readability */
-    letter-spacing: 0.5px;
-    /* Adjust letter spacing if needed */
-    margin: 0;
-}
-
-.maanageWaiters p:hover {
-    background-color: #b6ad90;
-    /* Change background color on hover */
-    transition: background-color 0.3s ease;
-    /* Add a smooth transition effect */
-}
 
 
 header {
@@ -94,11 +64,17 @@ td input[type="checkbox"] {
 
 /* styling for success message */
 .greenMessage {
-    margin: 10px 0;
+
     padding: 10px;
     border-radius: 3px 3px 3px 3px;
     color: #270;
     background-color: #DFF2BF; 
+    text-align: center;
+    justify-content: center;
+
+    margin: 10px auto;
+
+    max-width: 300px;
 
 }
 

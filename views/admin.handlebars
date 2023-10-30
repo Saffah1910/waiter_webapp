@@ -158,6 +158,9 @@
 
         </div>
     </div>
+       {{#if clearData}}
+        <p class="greenMessage">{{ clearData }}</p>
+        {{/if}}
 
     <div style="diplay:flex; align-items:center">
         <h2 style="text-align: center;">Manage Waiters</h2>
@@ -166,9 +169,7 @@
     <br>
 
     <form action="/days" method="get">
-        {{#if clearData}}
-        <p class="greenMessage">{{ clearData }}</p>
-        {{/if}}
+     
 
         <div class="days-container">
             {{#each availability}}
