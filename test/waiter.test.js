@@ -43,49 +43,34 @@ describe('Database functions', function () {
 
         await queryLogic.insertWaiterName(waiterName);
 
-        // Query the database to check if the waiter was inserted
         const result = await db.one('SELECT username FROM waiter WHERE LOWER(username) = $1', [waiterName.toLowerCase()]);
 
         assert.strictEqual(result.username, waiterName.toLowerCase());
     });
     
-
     it('should return waiter availability', async () => {
-
-        const testUsername = 'John';
-
-        const mockWeekdays = [{ id: 1, name: 'Monday' }, { id: 2, name: 'Tuesday' }, /*...*/];
-        const mockSelectedDays = [{ weekday_id: 1 }, /*...*/];
-
-        // Mock the database functions
-        const db = {
-            any: async (query) => {
-                if (query === 'SELECT * FROM weekdays') {
-                    return mockWeekdays;
-                } else if (query === 'SELECT weekday_id FROM shifts WHERE waiter_id = (SELECT id FROM waiter WHERE username = $1)') {
-                    return mockSelectedDays;
-                }
-            },
+        const mockDb = {
+          any: async (query) => {
+            if (query === 'SELECT * FROM weekdays') {
+              return [{ id: 1, name: 'Monday' }, { id: 2, name: 'Tuesday' }];
+            }
+          },
+          oneOrNone: async (query) => {
+            if (query === 'SELECT weekday_id FROM shifts WHERE waiter_id = (SELECT id FROM waiter WHERE username = $1)') {
+              return { weekday_id: 1 };
+            }
+          },
         };
-
-        const queryLogic = waiterQuery(db);
-
-
-        // Call the function to get waiter availability
-        const result = await queryLogic.getWaiterAvailability(testUsername);
-
-        assert.strictEqual(typeof result, 'object');
-        assert.ok(result.hasOwnProperty('weekdays'));
-        assert.ok(result.hasOwnProperty('selectedDays'));
-
-        assert.ok(Array.isArray(result.weekdays));
-        assert.ok(Array.isArray(result.selectedDays));
-
-
-        assert.notEqual(result.weekdays, null);
-        assert.notEqual(result.selectedDays, null);
-    });
-    
+      
+        const queryLogic = waiterQuery(mockDb);
+      
+        const result = await queryLogic.getWaiterAvailability('John');
+      
+      
+        assert.deepStrictEqual(result.weekdays, [{ id: 1, name: 'Monday' }, { id: 2, name: 'Tuesday' }]);
+        assert.deepStrictEqual(result.selectedDays, { weekday_id: 1 });
+      });
+      
 
     it('should return an array of weekdays', async () => {
         const mockWeekdays = [
