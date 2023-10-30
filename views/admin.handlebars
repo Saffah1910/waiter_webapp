@@ -6,129 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        body {
-            background-color: #dedcda;
+body {
+    background-color: #dedcda;
+    margin: 0;
+}
 
-        }
-
-
-
-        header {
-            padding: 10px;
+header {
+       padding: 10px;
             text-align: center;
             align-items: center;
             justify-content: center;
-        }
+}
 
-        h1 {
-            margin: 0;
+h1 {
+    margin: 0;
+}
 
-        }
+.days-container {
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted for responsiveness */
+    gap: 10px;
+    margin: 20px;
+    padding: 20px;
+}
 
-        .days-container {
-            text-align: center;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 10px;
-            margin: 20px;
+.day {
+    background-color: #f0f0f0;
+    border: 2px solid black;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin: 0 5px;
+}
 
-            padding: 20px;
-        }
+.day:hover {
+    transform: scale(0.98);
+    border-radius: 20px;
+    box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+}
 
-        .day {
-            background-color: #f0f0f0;
-            flex: 1;
-            border: 2px solid black;
-            margin: 0 5px;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        }
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
-      
+li {
+    margin-bottom: 10px;
+}
 
-        .day:hover {
-            transform: scale(0.98);
-            border-radius: 20px;
-            box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
-        }
+.red {
+    background-color: #f38375;
+    border: #780116 3px solid;
+}
 
-       
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+.orange {
+    background-color: #ffbf69;
+    border: #f3722c 3px solid;
+}
 
-        li {
-            margin-bottom: 10px;
-        }
+.green {
+    background-color: #c1ff9b;
+    border: #04471c 3px solid;
+}
 
-        .red {
-            background-color: #f38375;
-            border: #780116 3px solid;
-        }
+.clear-button {
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
 
-        .orange {
-            background-color: #ffbf69;
-            border: #f3722c 3px solid;
-        }
+.graph-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
 
-        .clear-button {
-            margin-top: 30px;
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
+.legend {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
 
-        .green {
-            background-color: #c1ff9b;
-            border: #04471c 3px solid;
-        }
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
 
- 
-        .graph-container {
-            position: relative;
-            width: 80%;
-            margin: 0 auto;
-        }
+.legend-item div {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
 
-        .legend {
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
+@media screen and (max-width: 1000px) {
+    .day {
+        flex: 100%;
+        margin: 0 0 20px 0;
+    }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
+    .days-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
 
-        .legend-item div {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
-        }
-
-        @media screen and (max-width: 1000px) {
-            body {
-                margin: 0;
-            }
-
-            .day {
-                flex: 100%;
-                margin: 0 0 20px 0;
-            }
-
-            .days-container {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
     </style>
 </head>
 
