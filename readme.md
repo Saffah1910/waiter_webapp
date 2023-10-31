@@ -25,5 +25,4 @@ Reset the availability data for a new week.
 - Express.js
 -  PostgreSQL (for data storage)
 - HTML, CSS, JavaScript
-- Handlebars (as the templating engine) 
-- Passport.js (for user authentication)
+- Handlebars (as the templating engine) - Passport.js (for user authentication)
